@@ -23,19 +23,18 @@ def dF_dr(r, h, lamb):
 def dF_dh(r, h, lamb):
     return (FuncaoFinal(r, h+d, lamb) - FuncaoFinal(r, h, lamb))/d
 
-
-
-
-r = 2
-h = 3
-lamb = 5
+r = 7
+h = 6
+lamb = 2
 alpha = 1e-5
-tolerancia = 0.000001
+tolerancia = 1e-4
+norma_g = 1
 erro = 1
 i = 0
 k = 0
 
-while np.abs(erro - f(r, h)) > tolerancia:
+
+while norma_g > tolerancia or volume(r, h) < 500:
 
     var_dF_dr = dF_dr(r, h, lamb)
     var_dF_dh = dF_dh(r, h, lamb)
@@ -43,7 +42,7 @@ while np.abs(erro - f(r, h)) > tolerancia:
     norma_g = np.linalg.norm(np.array([var_dF_dr, var_dF_dh]))
     
 
-    if i == 10000:
+    if i == 100000:
         print(k)
         k+= 1
         print("modulo vetor: ", norma_g)
@@ -53,6 +52,7 @@ while np.abs(erro - f(r, h)) > tolerancia:
         print("função final: " , FuncaoFinal(r, h, lamb))
         print("custo: " , f(r, h))
         print("volume: ", volume(r, h))
+        print("erro: ", np.abs((erro - f(r, h))/f(r, h)))
         print("\n")
         i = 0
     
@@ -62,3 +62,12 @@ while np.abs(erro - f(r, h)) > tolerancia:
     h = h - alpha * var_dF_dh
 
     i += 1
+
+print("modulo vetor: ", norma_g)
+print("penalização: " , penalizacao(r, h))
+print("r: " , r)
+print("h: " , h)
+print("função final: " , FuncaoFinal(r, h, lamb))
+print("custo: " , f(r, h))
+print("volume: ", volume(r, h))
+print("\n")
