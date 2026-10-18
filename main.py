@@ -52,6 +52,7 @@ erro = 10
 n_norma = 0
 
 k = 0
+i =0
 norma_g = 0
 
 while erro > tolerancia or volume(r, h) < 500:
@@ -63,7 +64,7 @@ while erro > tolerancia or volume(r, h) < 500:
     norma_g = np.linalg.norm(
         np.array([var_dF_dr, var_dF_dh])
     )
-
+    
     erro = np.abs((n_norma - norma_g)/norma_g)
 
     # Critério de parada
@@ -77,7 +78,7 @@ while erro > tolerancia or volume(r, h) < 500:
     k+=1
 
     if k == 100000:
-        print("iterações:", k)
+        print("100.000 iterações:", i)
         print("gradiente:", norma_g)
         print("penalização:", penalizacao(r, h))
         print("r:", r)
@@ -86,6 +87,7 @@ while erro > tolerancia or volume(r, h) < 500:
         print("custo:", f(r, h))
         print("volume: ", volume(r, h))
         print("\n")
+        i += 1
         k = 0
 
 print("iterações:", k)
